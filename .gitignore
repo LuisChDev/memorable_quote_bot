@@ -104,3 +104,4 @@ ENV/
 images/old_images/*
 praw.ini
 imgur_secret.txt
+*~

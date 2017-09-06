@@ -50,7 +50,6 @@ James Cook
 Roald Amundsen
 Robert F. Scott
 Serj Tankian
-Pericles
 Vladimir lenin
 Buddha
 Justinian
@@ -65,3 +64,4 @@ Oscar Wilde
 Franklin D. Roosevelt
 Ted Bundy
 Stephen Hawking
+Pericles

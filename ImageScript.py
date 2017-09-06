@@ -25,12 +25,12 @@ def build_image(quote, img_name):
 
     # 2.1. calculate offset from corner so that the image is centered
     print(str(pic.width)+' '+str(pic.height))
-    Xoff = int( (220 - pic.width) / 2) + 10
-    Yoff = int( (260 - pic.height) / 2) + 20
-    print(str(Xoff)+' '+str(Yoff))
+    x_off = int( (220 - pic.width) / 2) + 10
+    y_off = int( (260 - pic.height) / 2) + 20
+    print(str(x_off)+' '+str(y_off))
     
     # 2.2. paste it on top of the new one
-    img.paste(pic, (Xoff, Yoff, Xoff + pic.width, Yoff + pic.height))
+    img.paste(pic, (x_off, y_off, x_off + pic.width, y_off + pic.height))
     img.paste(signature, (260, 250, 580, 280))
     print('pasted succesfully.')
 

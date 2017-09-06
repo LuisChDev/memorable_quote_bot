@@ -43,14 +43,17 @@ if __name__ == '__main__':
         makeSig(name)
 
     elif prompt == 'removepic':
-        with open('historical_figures.txt', 'r+') as figures:
-            name = input('person to remove: ')
-            newfile = []
-            for line in figures:
-                if name not in line:
-                    newfile.append(line)
-            figures.writelines(newfile)
-            remove('images/'+name+'.jpg')
+        figures = open('historical_figures.txt', 'r')
+        old_figures = figures.readlines()
+        figures.close()
+        remove = input('person to remove: ')
+        for line in old_figures:
+            if line == remove+'\n':
+                old_figures.remove(line)
+        figures = open('historical_figures.txt', 'w')
+        figures.writelines(old_figures)
+        figures.close()
+        os.remove('images/'+remove)
 
     else:
         print(
