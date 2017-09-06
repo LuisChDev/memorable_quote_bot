@@ -47,11 +47,12 @@ if __name__ == '__main__':
         old_figures = figures.readlines()
         figures.close()
         remove = input('person to remove: ')
+        new_figures = []
         for line in old_figures:
-            if line == remove+'\n':
-                old_figures.remove(line)
+            if line != remove+'\n':
+                new_figures.append(line)
         figures = open('historical_figures.txt', 'w')
-        figures.writelines(old_figures)
+        figures.writelines(new_figures)
         figures.close()
         os.remove('images/'+remove)
 
