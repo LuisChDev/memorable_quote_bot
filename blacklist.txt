@@ -1,0 +1,3 @@
+wikiTextBot
+AutoModerator
+
