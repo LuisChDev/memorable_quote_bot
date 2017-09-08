@@ -42,7 +42,8 @@ def main():
           if regex and allowed and (comment.id not in cached_comments):
                number_comments = number_comments + 1
                image = build_image(regex.group(0), comment.id)
-               add_to_list(comment_file, yaml.dump({comment.id: image}))
+               add_to_list(comment_file, yaml.dump({comment.id: image},
+                                                   default_flow_style=False))
                comment.reply(make_comment(image))
                print(regex.group(0)+'\n'+'-_-_-'+
                      comment.subreddit.display_name+'\n'+
@@ -53,10 +54,7 @@ def make_comment(image_link):
      """
      writes a comment ready to be sent.
      """
-     return(
-          image_link+"\n\n\
-          ^_I am a bot._  [stop]("+stopauto+") | [start]("+startauto+") | [source]("+source+") | [PM me!]("+PMme+")"
-     )
+     return(image_link+"\n\n_I am a bot._^bleep ^^bloop - [stop]("+stopauto+") | [start]("+startauto+") | [source]("+source+") | [PM me!]("+PMme+")")
 
 # check inbox to block and unblock on demand.
 # message 'stop' to not reply to your comment, 'start' to begin again.
