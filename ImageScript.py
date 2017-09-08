@@ -3,12 +3,24 @@
 from PIL import Image, ImageDraw, ImageFont
 from imgurpython import ImgurClient
 from textwrap import wrap
-import random, sys
+from urllib.parse import urlparse
+import random, sys, yaml, os
 
 size = 220, 260
+gurClient = []
+with open('imgur_secret.yml', 'r') as secrets:
+    gurClient = yaml.load(secrets)
 
 # 0. connects to imgur ("client_id", "client_secret")
-gur = ImgurClient("client_id","client_secret")
+gur = ImgurClient(gurClient['client_id'], gurClient['client_secret'])
+
+def delete_image(image_name):
+    """
+    deletes image based on link.
+    """
+    image_id = os.path.splitext(urlparse(image_name).path)[0].replace('/', '')
+    gur.delete_image(image_id)
+    
 
 # function that takes a quote and uploads a randomly generated "inspirational" quote
 def build_image(quote, img_name):
@@ -18,7 +30,7 @@ def build_image(quote, img_name):
     
     # 1. select a random image from the archive
     with open('historical_figures.txt') as figures:
-        randompic = str(int(random.random()*66))
+        randompic = int(random.random()*66)
         name = figures.read().split('\n')[randompic]
         pic = Image.open('images/'+name+'.jpg')
         signature = Image.open('signatures/'+name+'.png')

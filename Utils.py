@@ -24,15 +24,54 @@ def makeThumbnail(directory, name):
     img.thumbnail((220,260), Image.ANTIALIAS)
     img.save('images/'+name+'.jpg')
 
+def remove_from_list(target_list, removee):
+    """
+    utility function to remove single lines from lists. params: local directory of
+the file, string to be removed.
+    """
+    try:
+        list_file = open(target_list, 'r')
+        old_list = list_file.readlines()
+        list_file.figures.close()
+        new_list = []
+        for line in old_list:
+            if line != removee+'\n':
+                new_list.append(line)
+        list_file = open(target_list, 'w')
+        list_file.writelines(new_list)
+        list_file.close()
+    except Exception as e:
+        print(target_list+'maybe, maybe not exists. or remove_from_list did not work. '+e)
+
+def add_to_list(target_list, addee):
+    """
+    appends the given string to the given list. params: local dir of list, string
+    """
+    try:
+        with open(target_list, 'a') as list_file:
+            list_file.write(addee+'\n')
+    except Exception as e:
+        print(target_list+' does not seem to exist. or add_to_list didnt work.')
+
+def get_list(target_list):
+    """
+    returns the list specified by local directory.
+    """
+    try:
+        with open(target_list, 'r') as list_file:
+            list_object = list_file.read().split('\n')
+    except Exception as e:
+        print(target_list+' does not seem to exist. or get_list didnt work.')
+        return []
+    return list_object
+              
 if __name__ == '__main__':
     prompt = input('sigs, addpic or removepic? ')
     
     if prompt == 'sigs':
         with open('historical_figures.txt') as figures:
-            i = 0
             for someone in figures.read().split('\n'):
-                makeSig(someone, i)
-                i = i + 1
+                makeSig(someone)
 
     elif prompt == 'addpic':
         directory = input('image directory: ')
