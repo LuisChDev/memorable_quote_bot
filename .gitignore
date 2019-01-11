@@ -104,5 +104,7 @@ ENV/
 images/old_images/*
 praw.ini
 imgur_secret.txt
+imgur_secret.py
 *~
 generated/*
+sqlalchemy_insert.py

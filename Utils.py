@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 import os, re
 
 def makeSig(name):
-    
+
     # 1. generate the image and the font
     sig = Image.new("RGBA", (320,30), (0,0,0))
     fuente = ImageFont.truetype("DejaVuSerif.ttf", 25)
@@ -64,10 +64,10 @@ def get_list(target_list):
         print(target_list+' does not seem to exist. or get_list didnt work.')
         return []
     return list_object
-              
+
 if __name__ == '__main__':
     prompt = input('sigs, addpic or removepic? ')
-    
+
     if prompt == 'sigs':
         with open('historical_figures.txt') as figures:
             for someone in figures.read().split('\n'):
