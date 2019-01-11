@@ -22,22 +22,13 @@ reddit = praw.Reddit('memorable_quote_bot')
 @db_session
 def main():
     number_comments = 0
-    # tm = time.time()
     check_inbox()
-    # tm2 = time.time()
-    # print(tm2 - tm)
     delete_if_downvoted()
-
-    # tm3 = time.time()
-    # print(tm3 - tm2)
     comments = reddit.subreddit('test').comments(limit=100)
-    # tm4 = time.time()
-    # print(tm4 - tm3)
 
     for comment in comments:
         regex = re.search(MEMORABLE_QUOTE_REGEX, comment.body)
         subname = comment.subreddit.display_name
-        # with db_session:
         allowed = not select(
             b for b in Bannedsub if b.name == subname)[:]
         fresh = not select(
@@ -49,7 +40,6 @@ def main():
                 int(random()*numfigs)]
             number_comments = number_comments + 1
             image = build_image(regex.group(0), comment.id, person)
-            # with db_session:
             Comment(id=comment.id, url=image)
             comment.reply(make_comment(image))
 
@@ -73,27 +63,17 @@ def make_comment(image_link):
 
 # check inbox to block and unblock on demand.
 # message 'stop' to not reply to your comment, 'start' to begin again.
-
-
 def check_inbox():
     # with db_session:
     msg_list = select(m.id for m in Message)[:20]
     blacklist = select(b.name for b in Banneduser)[:20]
     msgs = reddit.inbox.messages(limit=100)
     for msg in msgs:
-        # message_list = get_list(message_file)
-        # blacklist = get_list(blacklisted_users)
-        # if msg.id not in message_list:
         if msg.id not in msg_list:
             print(msg.body + ' not in list')
-            # add_to_list(message_file, msg.id)
-            # with db_session:
             Message(id=msg.id)
-            # if msg.author.name in blacklist:
             if msg.author.name in blacklist:
                 if msg.body == start:
-                    # remove_from_list(blacklisted_users, msg.author.name)
-                    # with db_session:
                     delete(m for m in Message if m.id == msg.id)
                     msg.reply(started)
                 elif msg.body == stop:
@@ -102,8 +82,6 @@ def check_inbox():
                 if msg.body == start:
                     msg.reply(started)
                 elif msg.body == stop:
-                    # add_to_list(blacklisted_users, msg.author.name)
-                    # with db_session:
                     Banneduser(name=msg.author.name)
                     msg.reply(stopped)
 
@@ -115,12 +93,8 @@ def delete_if_downvoted():
     for comment in reddit.redditor(bot_username).comments.controversial(
             'all', limit=None):
         if comment.score <= delete_threshold:
-            # with open(comment_file) as comments:
-            #     dicc = yaml.load(comments)
-            # with db_session:
             link = (
                 c.url for c in Comment if c.id == comment.parent().id)[0]
-            # delete_image(dicc[comment.parent().id])
             delete_image(link)
             comment.delete()
 
@@ -141,7 +115,6 @@ def root():
         time.sleep(2)
         if (time.time() - now) >= 3600:
             now = time.time()
-            # delete_if_downvoted()
     end = time.time()
     print('\n\n')
     print(end - beginning)
